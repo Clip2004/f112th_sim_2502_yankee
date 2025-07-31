@@ -31,10 +31,18 @@ def generate_launch_description():
              )
 
     # Run the spawner node from the gazebo_ros package. The entity name doesn't really matter if you only have a single robot.
-    spawn_entity = Node(package='gazebo_ros', executable='spawn_entity.py',
-                        arguments=['-topic', 'robot_description',
-                                   '-entity', 'my_bot'],
-                        output='screen')
+    spawn_entity = Node(
+        package='gazebo_ros',
+        executable='spawn_entity.py',
+        arguments=[
+            '-topic', 'robot_description',
+            '-entity', 'my_bot',
+            '-x', '2.0',
+            '-y', '-6.0',
+            '-z', '0.05',      # altura desde el suelo (usualmente 0.0 o 0.1)
+        ],
+        output='screen'
+    )   
 
     joystick = IncludeLaunchDescription(
                 PythonLaunchDescriptionSource([os.path.join(
