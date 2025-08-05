@@ -4,12 +4,16 @@ twist_mux:
       navigation:
         topic   : cmd_vel_stop
         timeout : 0.5
-        priority: 100
+        priority: 50
       joystick  : 
         topic   : cmd_vel_joy
         timeout : 0.5
-        priority: 50
+        priority: 100
       control:
         topic   : cmd_vel_ctrl
         timeout : 0.5
         priority: 20
+      gap:
+        topic   : cmd_vel_gap_ctrl
+        timeout : 0.5
+        priority: 30
