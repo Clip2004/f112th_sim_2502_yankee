@@ -36,13 +36,13 @@ def generate_launch_description():
         executable='spawn_entity.py',
         arguments=[
             '-topic', 'robot_description',
-            '-entity', 'my_bot',
-            '-x', '-8.0',
-            '-y', '6.0',
+            '-entity', 'my_robot',
+            '-x', '0.0',
+            '-y', '0.0',
             '-z', '0.05',      # altura desde el suelo (usualmente 0.0 o 0.1)
             '-R', '0.0',
             '-P', '0.0',
-            '-Y', '-1.57'  # ~90 grados en radianes
+            '-Y', '0.0'  # ~90 grados en radianes
         ],
         output='screen'
     )   
