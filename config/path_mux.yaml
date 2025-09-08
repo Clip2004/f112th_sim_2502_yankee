@@ -1,0 +1,6 @@
+path_mux_node_yankee:
+  ros__parameters:
+    topics: 
+      - "/dijkstra_path"
+      - "/astar_path"
+      - "/rrt_path"

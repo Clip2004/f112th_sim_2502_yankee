@@ -39,10 +39,16 @@ def generate_launch_description():
             '-entity', 'my_robot',
             '-x', '0.0',
             '-y', '0.0',
-            '-z', '0.05',      # altura desde el suelo (usualmente 0.0 o 0.1)
+            '-z', '0.15',
             '-R', '0.0',
             '-P', '0.0',
-            '-Y', '0.0'  # ~90 grados en radianes
+            '-Y', '0.0'
+            # '-x', '-5.5',
+            # '-y', '3.5',
+            # '-z', '0.05',      # altura desde el suelo (usualmente 0.0 o 0.1)
+            # '-R', '0.0',
+            # '-P', '0.0',
+            # '-Y', '-1.57'  # ~90 grados en radianes
         ],
         output='screen'
     )   
@@ -61,11 +67,18 @@ def generate_launch_description():
                     parameters=[twist_mux_params,{'use_sim_time': True}],
                     remappings=[('/cmd_vel_out','/cmd_vel')]
     )
+    # path_mux_params = os.path.join(get_package_share_directory(package_name),'config','path_mux.yaml')
+
+    # path_mux_node = Node(package='path_planner_yankee', 
+    #                 executable='path_mux_node_yankee',
+    #                 parameters=[path_mux_params,{'use_sim_time': True}]
+    # )
 
 # Launch them all!
     return LaunchDescription([
         rsp,
         joystick,
         twist_mux_node,
+        # path_mux_node,
         gazebo,
         spawn_entity])

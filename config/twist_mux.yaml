@@ -17,3 +17,7 @@ twist_mux:
         topic   : cmd_vel_gap_ctrl
         timeout : 0.5
         priority: 30
+      pid:
+        topic   : cmd_vel_pid_waypoints
+        timeout : 0.5
+        priority: 40
