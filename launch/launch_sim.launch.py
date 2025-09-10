@@ -45,10 +45,16 @@ def generate_launch_description():
             '-Y', '0.0'
             # '-x', '-5.5',
             # '-y', '3.5',
-            # '-z', '0.05',      # altura desde el suelo (usualmente 0.0 o 0.1)
+            # '-z', '0.15',      # altura desde el suelo (usualmente 0.0 o 0.1)
             # '-R', '0.0',
             # '-P', '0.0',
             # '-Y', '-1.57'  # ~90 grados en radianes
+            '-x', '-8.25',
+            '-y', '6.0',
+            '-z', '0.15',      # altura desde el suelo (usualmente 0.0 o 0.1)
+            '-R', '0.0',
+            '-P', '0.0',
+            '-Y', '-1.57'  # ~90 grados en radianes
         ],
         output='screen'
     )   
