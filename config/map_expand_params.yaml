@@ -1,0 +1,4 @@
+ros__parameters:
+  occ_thresh: 100
+  robot_radius_m: 0.21213203435
+  safety_margin_m: 0.3

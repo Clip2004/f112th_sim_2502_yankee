@@ -37,12 +37,12 @@ def generate_launch_description():
         arguments=[
             '-topic', 'robot_description',
             '-entity', 'my_robot',
-            '-x', '0.0',
-            '-y', '0.0',
-            '-z', '0.15',
-            '-R', '0.0',
-            '-P', '0.0',
-            '-Y', '0.0'
+            # '-x', '0.0',
+            # '-y', '0.0',
+            # '-z', '0.15',
+            # '-R', '0.0',
+            # '-P', '0.0',
+            # '-Y', '0.0'
             # '-x', '-5.5',
             # '-y', '3.5',
             # '-z', '0.15',      # altura desde el suelo (usualmente 0.0 o 0.1)
