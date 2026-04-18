@@ -8,7 +8,7 @@
     <link name="base_link">
     </link>
 
-    <!-- base_footprint link -->
+    <!-- base_footprint link-->
     <link name="base_footprint">
     </link>
     <joint name="base_footprint_joint" type="fixed">
