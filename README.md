@@ -1,25 +1,68 @@
-**F112th Simulator**
+<div align="center">
 
-- **Propósito**: Este paquete de ROS2 contiene la configuración necesaria para simular un robot diferencial (F1/12-like) en Gazebo, incluyendo descripción del robot, archivos de lanzamiento, mundos y parámetros útiles para pruebas de control y navegación.
+# 🏎️ F1/12th Simulator
 
-- **Objetivo**: Proveer un entorno reproducible para desarrollar y probar controladores, teleoperación y algoritmos de planificación/seguimiento de trayectoria sobre un robot diferencial en simulación.
+### A ROS 2 simulation environment for differential drive robots
 
-**Contenido Principal**
-- **`description/`**: Archivos `xacro`/URDF que definen el robot y modelos auxiliares.
-- **`launch/`**: Launch files de ROS2 para levantar la simulación completa (`launch_sim.launch.py`), teleoperación por joystick (`joystick.launch.py`), y demás configuraciones de lanzamiento.
-- **`config/`**: Parámetros YAML para `joy`, `twist_mux`, `mapper`, y otros nodos de ejemplo.
-- **`worlds/`**: Ficheros de mundos para Gazebo (varios escenarios de prueba).
-- **`map/`**: Mapas y archivos de posegraph usados en pruebas de SLAM/localización.
-- **`docs/`**: Documentación y notas históricas del proyecto.
+[![ROS 2 Humble](https://img.shields.io/badge/ROS_2-Humble-blue?logo=ros&logoColor=white)](https://docs.ros.org/en/humble/)
+[![Gazebo Classic](https://img.shields.io/badge/Gazebo-Classic-orange?logo=gazebo&logoColor=white)](https://classic.gazebosim.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
+[![ament_cmake](https://img.shields.io/badge/build-ament__cmake-blueviolet)](https://docs.ros.org/en/humble/How-To-Guides/Ament-CMake-Documentation.html)
 
-**Requisitos y versiones recomendadas**
-- **ROS2**: Este paquete está preparado para ROS2 (ament_cmake). Se ha probado con **ROS2 Humble**; funcionará con distros posteriores, pero verifica compatibilidad de `gazebo_ros` y otras dependencias.
-- **Gazebo**: Se usa `gazebo_ros` (Gazebo clásico). Asegúrate de tener la versión compatible con tu distribución de ROS2.
-- **Dependencias de sistema**: `ros-<distro>-gazebo-ros`, `ros-<distro>-joy`, `ros-<distro>-teleop-twist-joy`, `twist_mux`, y paquetes que el proyecto referencie.
+</div>
 
-**Instalación rápida**
-1. Coloca este paquete dentro de tu workspace de ROS2, por ejemplo: `~/ros2_ws/src/`.
-2. Desde la raíz del workspace compila con `colcon`:
+---
+
+## 📌 Overview
+
+`f112th_sim_2502_yankee` is a ROS 2 package that provides everything needed to simulate a **differential drive robot** (F1/12-scale style) in **Gazebo Classic**. It includes robot description files, launch configurations, world scenarios, and parameter files — giving you a reproducible sandbox for developing and testing:
+
+- 🎮 Joystick teleoperation
+- 🧭 Navigation and path following algorithms
+- 🗺️ SLAM and localization pipelines
+- 🔁 Custom controllers
+
+---
+
+## 📁 Package Structure
+
+```
+f112th_sim_2502_yankee/
+├── config/          # YAML parameter files (joy, twist_mux, mapper, etc.)
+├── description/     # Xacro/URDF robot and model definitions
+├── docs/            # Project documentation and historical notes
+├── launch/          # ROS 2 launch files
+├── map/             # Maps and posegraph files for SLAM/localization tests
+└── worlds/          # Gazebo world files (multiple test scenarios)
+```
+
+---
+
+## ⚙️ Requirements
+
+| Dependency | Version / Notes |
+|---|---|
+| **ROS 2** | Humble (recommended) — later distros should work, verify compatibility |
+| **Gazebo** | Classic (`gazebo_ros`) — match version to your ROS 2 distro |
+| `ros-<distro>-gazebo-ros` | Gazebo–ROS bridge |
+| `ros-<distro>-joy` | Joystick input node |
+| `ros-<distro>-teleop-twist-joy` | Joystick teleoperation |
+| `ros-<distro>-twist-mux` | Velocity multiplexer |
+
+> ⚠️ If you see API incompatibility warnings at runtime, double-check that your `gazebo_ros` version matches your ROS 2 distribution.
+
+---
+
+## 🚀 Quick Start
+
+### 1. Clone into your workspace
+
+```bash
+cd ~/ros2_ws/src
+git clone <repo-url> f112th_sim_2502_yankee
+```
+
+### 2. Build
 
 ```bash
 cd ~/ros2_ws
@@ -27,24 +70,85 @@ colcon build --packages-select f112th_sim_2502_yankee
 source install/setup.bash
 ```
 
-3. Lanza la simulación (ejemplo):
+### 3. Launch the simulation
 
 ```bash
 ros2 launch f112th_sim_2502_yankee launch_sim.launch.py
 ```
 
-Nota: Los `launch` incluidos usan internamente la variable `package_name` con el valor `f112th_sim_2502_yankee`. Si renombraste el paquete o el repositorio, reemplaza esa cadena por el nombre actual del paquete (o actualiza `package.xml`).
+> 💡 **Renaming the package?** The launch files use the internal variable `package_name = "f112th_sim_2502_yankee"`. If you rename the package or repository, update that string across the launch files **and** in `package.xml`.
 
-**Descripción de los launch files más importantes**
-- **`launch_sim.launch.py`**: Incluye `rsp.launch.py` (robot_state_publisher), lanza Gazebo (`gazebo.launch.py` de `gazebo_ros`), y spawn del `robot_description` usando `spawn_entity.py`. Además lanza `joystick` y `twist_mux`.
-- **`joystick.launch.py`**: Lanza `joy_node` y `teleop_node` para teleoperación con joystick.
+---
 
-**Configuración y personalización rápida**
-- Cambiar posición de spawn: en `launch_sim.launch.py` en la sección `spawn_entity` puedes editar `-x`, `-y`, `-z`, `-Y` para ajustar dónde aparece el robot.
-- Usar reloj simulado: los `launch` pasan `use_sim_time=true` a nodos que lo soportan.
-- Parametrización: los ficheros en `config/` contienen parámetros listos para usar. Edita o añade archivos YAML según tu hardware/estrategia.
+## 🛠️ Launch Files
 
-**Consideraciones y buenas prácticas**
-- **Respaldos antes de cambios**: antes de borrar o mover archivos crea un backup o carpeta `archive/`.
-- **Compatibilidad ROS2/Gazebo**: Verifica versiones; si observas mensajes de API incompatibles, ajusta tu distro de ROS2 o la versión de `gazebo_ros`.
-- **Rendimiento**: Gazebo y los mundos complejos consumen recursos; cierra otras aplicaciones intensivas y reduce la calidad del mundo si es necesario.
+### `launch_sim.launch.py` — Full simulation stack
+
+Brings up the complete simulation environment:
+
+1. **`rsp.launch.py`** — Starts `robot_state_publisher` with the robot URDF/Xacro description.
+2. **`gazebo.launch.py`** (from `gazebo_ros`) — Launches the Gazebo simulator.
+3. **`spawn_entity.py`** — Spawns the robot into the Gazebo world using `robot_description`.
+4. **`joystick.launch.py`** — Starts joystick teleoperation (see below).
+5. **`twist_mux`** — Velocity multiplexer to arbitrate command sources.
+
+### `joystick.launch.py` — Teleoperation
+
+Starts `joy_node` and `teleop_node` for joystick-based robot control.
+
+---
+
+## 🔧 Configuration & Customization
+
+### Change the robot's spawn position
+
+In `launch_sim.launch.py`, find the `spawn_entity` call and edit the position arguments:
+
+```python
+'-x', '0.0', '-y', '0.0', '-z', '0.05', '-Y', '0.0'
+```
+
+### Simulated clock
+
+All launch files pass `use_sim_time=true` to nodes that support it — no extra configuration needed.
+
+### Custom parameters
+
+Edit or add YAML files in `config/` to tune node behavior (joystick axes, velocity limits, mapper settings, etc.):
+
+```
+config/
+├── joy_params.yaml
+├── twist_mux.yaml
+└── ...
+```
+
+---
+
+## 🗺️ Available Worlds
+
+The `worlds/` directory contains multiple Gazebo scenarios of varying complexity. Open any `.world` file in Gazebo or specify it as an argument in your launch file:
+
+```bash
+ros2 launch f112th_sim_2502_yankee launch_sim.launch.py world:=worlds/my_world.world
+```
+
+---
+
+## ✅ Best Practices
+
+- **Back up before restructuring** — create an `archive/` folder before deleting or moving files.
+- **Performance** — Gazebo with complex worlds is resource-intensive. Close other heavy applications, or simplify the world model if performance is poor.
+- **Distro compatibility** — Always verify `gazebo_ros` compatibility when upgrading your ROS 2 distribution.
+
+---
+
+## 📄 License
+
+This project is licensed under the [MIT License](LICENSE).
+
+---
+
+<div align="center">
+  Made with ❤️ for the ROS 2 community
+</div>
