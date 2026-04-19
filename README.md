@@ -59,7 +59,7 @@ f112th_sim_2502_yankee/
 
 ```bash
 cd ~/ros2_ws/src
-git clone <repo-url> f112th_sim_2502_yankee
+git clone https://github.com/Clip2004/f112th_sim_2502_yankee
 ```
 
 ### 2. Build
